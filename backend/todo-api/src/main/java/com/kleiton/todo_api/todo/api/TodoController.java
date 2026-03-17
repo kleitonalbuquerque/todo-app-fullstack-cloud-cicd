@@ -1,7 +1,10 @@
 package com.kleiton.todo_api.todo.api;
 
 import com.kleiton.todo_api.todo.application.TodoService;
-import com.kleiton.todo_api.todo.domain.Todo;
+import com.kleiton.todo_api.todo.dto.CreateTodoRequest;
+import com.kleiton.todo_api.todo.dto.TodoResponse;
+import com.kleiton.todo_api.todo.dto.UpdateTodoRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,23 +20,26 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<Todo> getAll() {
+    public List<TodoResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Todo getById(@PathVariable Long id) {
+    public TodoResponse getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public Todo create(@RequestBody Todo todo) {
-        return service.create(todo);
+    public TodoResponse create(@RequestBody @Valid CreateTodoRequest request) {
+        return service.create(request);
     }
 
     @PutMapping("/{id}")
-    public Todo update(@PathVariable Long id, @RequestBody Todo todo) {
-        return service.update(id, todo);
+    public TodoResponse update(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateTodoRequest request) {
+
+        return service.update(id, request);
     }
 
     @DeleteMapping("/{id}")
